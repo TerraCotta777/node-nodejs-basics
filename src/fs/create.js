@@ -1,5 +1,13 @@
-const create = async () => {
-    // Write your code here 
-};
+import fs from "node:fs"
 
-await create();
+const filesPath = new URL("./files/fresh.txt", import.meta.url).pathname
+
+const create = async () => {
+    if (fs.existsSync(filesPath)) {
+        throw new Error("FS operation failed")
+    } else {
+        fs.writeFile(filesPath, "I am fresh and young")
+    }
+}
+
+await create()

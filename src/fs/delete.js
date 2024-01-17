@@ -1,5 +1,12 @@
-const remove = async () => {
-    // Write your code here 
-};
+import fs from "node:fs"
 
-await remove();
+const fileToDelete = new URL("./files/fileToRemove.txt", import.meta.url)
+    .pathname
+
+const remove = async () => {
+    fs.unlink(fileToDelete, (err) => {
+        if (err) throw new Error("FS operation failed")
+    })
+}
+
+await remove()
