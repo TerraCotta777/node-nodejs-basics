@@ -1,13 +1,15 @@
 import { Worker } from "worker_threads"
 import os from "os"
 
+const workerPath = new URL('./worker.js', import.meta.url).pathname
+
 const performCalculations = async () => {
     const numCPUs = os.cpus().length
     const promises = Array.from(
         { length: numCPUs },
         (_, i) =>
             new Promise((resolve, reject) => {
-                const worker = new Worker("./worker.js")
+                const worker = new Worker(workerPath)
                 worker.postMessage(10 + i)
                 worker.on("message", (result) =>
                     resolve({ status: "resolved", data: result })

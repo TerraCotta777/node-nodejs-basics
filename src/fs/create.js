@@ -1,12 +1,17 @@
-import fs from "node:fs"
+import fs from "node:fs/promises"
 
 const filesPath = new URL("./files/fresh.txt", import.meta.url).pathname
 
 const create = async () => {
-    if (fs.existsSync(filesPath)) {
-        throw new Error("FS operation failed")
-    } else {
-        fs.writeFile(filesPath, "I am fresh and young")
+    try {
+        await fs.access(filesPath);
+        throw new Error("FS operation failed");
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            await fs.writeFile(filesPath, "I am fresh and young");
+        } else {
+            throw err;
+        }
     }
 }
 

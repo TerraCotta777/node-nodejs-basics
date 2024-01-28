@@ -6,5 +6,6 @@ const nthFibonacci = (n) =>
 
 // This function sends result of nthFibonacci computations to main thread
 parentPort.on("message", (data) => {
+    console.log(data)
     parentPort.postMessage(nthFibonacci(data))
 })
